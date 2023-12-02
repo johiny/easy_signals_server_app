@@ -1,0 +1,14 @@
+.arrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 0 20px 30px;
+    border-color: transparent transparent transparent #ffffff;
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    cursor: pointer;
+}
+.arrow:hover{
+    border-color: transparent transparent transparent rgb(64, 64, 64);
+}
