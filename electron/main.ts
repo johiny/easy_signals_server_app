@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
-import LoadDirectus from "../directus/index"
+import StartServer from '../src/api/index'
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -39,18 +39,14 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, 'index.html'))
   }
 }
-function goToDirectus(){
-  LoadDirectus(() => {
-    win?.loadURL('http://localhost:8055')
-  })
-}
 
-ipcMain.on('go-to-directus', goToDirectus)
+
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
   if (process.platform !== 'darwin') {
     app.quit()
     win = null
@@ -65,7 +61,9 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+const startApp = () => { 
+  createWindow()
+  StartServer()
+}
 
-export {
-  goToDirectus}
+app.whenReady().then(startApp)

@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react"
-import MainLayout from './MainLayout'
 import Arrow from './Arrow'
 import Loader from "./Loader"
+import { useNavigate } from "react-router-dom";
+
 const screens = [Screen1, Screen2, Screen3]
 const finalScreen = 2
 const BeginSlider = () => {
     const [index, setIndex] = useState(0)
     const [screen, setScreen] = useState(screens[0])
+    const navigate = useNavigate();
     useEffect(() => {
         setScreen(screens[index])
         if(index === finalScreen){
-            window.ipcRenderer.send('go-to-directus')
+            navigate('/app')
         }
     },[index])
     const handleScreen = () => {
         setIndex((prev) => prev + 1)
     }
-  return (
-    <MainLayout>
+  return (<>
         {screen}
     { index < 2 && <Arrow action={handleScreen}/>}
-    </MainLayout>
+    </>
   )
 }
 

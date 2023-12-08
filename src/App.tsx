@@ -1,8 +1,11 @@
-import './App.css'
-import BeginSlider from './components/BeginSlider'
+import {
+  RouterProvider,
+} from "react-router-dom";
+import Router from 'components/Router.jsx' 
+
 function App() {
   return (
-    <BeginSlider/>
+    <RouterProvider router={Router} />
   )
 }
 

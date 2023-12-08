@@ -1,0 +1,11 @@
+.dashboard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.screenCards_Container{
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+}

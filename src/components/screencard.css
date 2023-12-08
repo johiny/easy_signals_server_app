@@ -1,0 +1,16 @@
+.screenCard{
+    display: flex;
+    border-width: 5px;
+    border-color: blueviolet;
+    height: 30vh;
+    width: 50vh;
+    background-color: blacks;
+    border: solid;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.screenCard_image{
+    width: 90%;
+    height: 50%;
+}
