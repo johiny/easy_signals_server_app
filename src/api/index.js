@@ -22,11 +22,8 @@ const io = new Server(express_server, {
     origin: '*',
   
 }})
-io.on('connection', (socket) => {
-  console.log('user connected: ', socket.id);
-  activeScreens.push(socket.id)
-});
 
+return {io ,activeScreens}
 }
 
 export default StartServer;

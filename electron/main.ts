@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
 import StartServer from '../src/api/index'
+import { convertToBase64 } from '../src/api/utils/os'
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -61,9 +62,31 @@ app.on('activate', () => {
   }
 })
 
-const startApp = () => { 
-  createWindow()
-  StartServer()
+// sockets section
+const {io} = StartServer()
+
+ipcMain.on('get_screens', async (event, arg) => {
+  updateSockets();
+}
+)
+
+const updateSockets = async () => {
+  let sockets = await io.fetchSockets()
+  sockets = sockets.map(socket => socket.id)
+  win?.webContents.send('screens_change', sockets)
 }
 
-app.whenReady().then(startApp)
+io.on('connection',  async (socket) => {
+  console.log('socket conectado', socket.id)
+  await updateSockets()
+  socket.on('disconnect', async () => {
+    console.log('socket desconectado', socket.id)
+    await updateSockets()
+  })
+})
+
+ipcMain.on('send_image', (event, {screen_id, image}) => {
+  io.to(screen_id).emit('image_change', image)
+})
+
+app.whenReady().then(createWindow)

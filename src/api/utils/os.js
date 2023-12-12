@@ -1,6 +1,6 @@
 
 import {networkInterfaces} from 'os';
-
+import { readFileSync } from 'fs';
 const obtenerIP = () => {
     const interfaces = networkInterfaces();
     let direccionIP = '';
@@ -18,4 +18,9 @@ const obtenerIP = () => {
     return direccionIP;
 };
 
-export { obtenerIP }
+const convertToBase64 = (image_route) => {
+  const image = readFileSync(image_route, 'base64');
+  return image
+}
+
+export { obtenerIP, convertToBase64 }
