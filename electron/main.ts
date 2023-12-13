@@ -85,8 +85,8 @@ io.on('connection',  async (socket) => {
   })
 })
 
-ipcMain.on('send_image', (event, {screen_id, image}) => {
-  io.to(screen_id).emit('image_change', image)
+ipcMain.on('send_file', (event, {screen_id, file}) => {
+  io.to(screen_id).emit('file_change', file)
 })
 
 app.whenReady().then(createWindow)

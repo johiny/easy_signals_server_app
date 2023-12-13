@@ -1,7 +1,7 @@
 import "./screencard.css"
 import { useState, useEffect } from "react"
-import PreviewSlider from "./previewSlider";
 import Preview from "./Preview";
+import { getFileType } from "../utils/mediaUtils";
 const Screencard = ({screen_id}) => {
     // multi image logic
     // const [images, setImages] = useState([]);
@@ -15,25 +15,30 @@ const Screencard = ({screen_id}) => {
     //     setImages((prevImages) => [...prevImages, ...newImages]);
     //   }
     // }
-    const [image, setImage] = useState(null);
-    
+    const [file, setFile] = useState(null);
+
     const handleDrop = (event) => {
       event.preventDefault();
       const files = event.dataTransfer.files;
       console.log(files)
       if (files.length > 0) {
         const reader = new FileReader();
+        let filetype = getFileType(files[0])
+        if(filetype === false){
+          window.alert("File type not supported")
+          return
+        }
         reader.onload = () => {
-          setImage(reader.result);
+          setFile({type: filetype, file: reader.result});
         }
         reader.readAsDataURL(files[0]);
       }
     }
 
     useEffect(() => {
-      if (!image) return;
-      window.ipcRenderer.send('send_image', {screen_id: screen_id, image: image})
-    },[image, screen_id])
+      if (!file) return;
+      window.ipcRenderer.send('send_file', {screen_id: screen_id, file: file})
+    },[file, screen_id])
 
   return (
     <div
@@ -46,8 +51,8 @@ const Screencard = ({screen_id}) => {
       /* { images.length > 0 &&
           <PreviewSlider images={images}/>
         } */}
-        {image ? 
-        <Preview image={image}/> : 
+        {file ? 
+        <Preview file={file}/> : 
         <h1>Drop files here</h1>
         }
     </div>

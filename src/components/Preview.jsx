@@ -1,9 +1,12 @@
 
-const Preview = ({image}) => {
+const Preview = ({file}) => {
   return (
     <>
     <h2>Current Playing</h2>
-          <img src={image} alt={`Dropped Image`} className="screenCard_image" />
+          { file.type === 'image' ?
+            <img src={file.file} alt={`Dropped Image`} className="screenCard_image" /> :
+            <video src={file.file} autoPlay controls muted loop playsInline alt={`Dropped Video`} className="screenCard_image" />
+          }
     </>
   )
 }
