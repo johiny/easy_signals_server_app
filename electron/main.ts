@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
 import StartServer from '../src/api/index'
-import { convertToBase64 } from '../src/api/utils/os'
+import { obtenerIP } from '../src/api/utils/os'
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -60,6 +60,11 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.on('get_ip', (event, data) => {
+  const host_IP = obtenerIP()
+  win?.webContents.send('receive_ip', host_IP)
 })
 
 // sockets section

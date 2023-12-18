@@ -1,8 +1,9 @@
 import "./screencard.css"
 import { useState, useEffect } from "react"
 import Preview from "./Preview";
-import { getFileType } from "../utils/mediaUtils";
-const Screencard = ({screen_id}) => {
+import { checkFile } from "../utils/mediaUtils";
+import MiniLoader from "./MiniLoader";
+const Screencard = ({screen_id, index}) => {
     // multi image logic
     // const [images, setImages] = useState([]);
     // const handleDrop = (event) => {
@@ -16,22 +17,33 @@ const Screencard = ({screen_id}) => {
     //   }
     // }
     const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleDrop = (event) => {
       event.preventDefault();
       const files = event.dataTransfer.files;
       console.log(files)
       if (files.length > 0) {
+        try{
         const reader = new FileReader();
-        let filetype = getFileType(files[0])
+        let filetype = checkFile(files[0])
         if(filetype === false){
-          window.alert("File type not supported")
+          window.alert("File type not supported or too big")
           return
         }
         reader.onload = () => {
           setFile({type: filetype, file: reader.result});
+          setLoading(false)
         }
         reader.readAsDataURL(files[0]);
+        setLoading(true)
+      }
+      catch(e){
+        console.log(e)
+        window.alert("error uploading file")
+        setLoading(false)
+        return
+      }
       }
     }
 
@@ -51,9 +63,13 @@ const Screencard = ({screen_id}) => {
       /* { images.length > 0 &&
           <PreviewSlider images={images}/>
         } */}
+        { loading && <MiniLoader/>}
         {file ? 
-        <Preview file={file}/> : 
-        <h1>Drop files here</h1>
+        <Preview file={file} setLoading={setLoading}/> : 
+        <>
+        <h2>Screen {index + 1}</h2>
+        <h2>Drop files here max 200MB</h2>
+        </>
         }
     </div>
   )

@@ -1,7 +1,11 @@
-const getFileType = (file) => {
-    const type = file.type;
-    console.log(file.type)
-    // Lista de tipos MIME comunes para imágenes y videos
+const checkFile = (file) => {
+
+   const LIMIT = 200 * (2 ** 20)
+   if(file.size > LIMIT){
+      return false;
+   }
+   const type = file.type;
+   //tipos de archivo admitidos
     const tiposImagen = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
     const tiposVideo = ['video/mp4', 'video/webm', 'video/ogg'];
   
@@ -16,4 +20,4 @@ const getFileType = (file) => {
      }
 }
 
-export {getFileType}
+export {checkFile}

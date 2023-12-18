@@ -1,11 +1,11 @@
 
-const Preview = ({file}) => {
+const Preview = ({file, setLoading}) => {
   return (
     <>
     <h2>Current Playing</h2>
           { file.type === 'image' ?
-            <img src={file.file} alt={`Dropped Image`} className="screenCard_image" /> :
-            <video src={file.file} autoPlay controls muted loop playsInline alt={`Dropped Video`} className="screenCard_image" />
+            <img src={file.file} alt={`Dropped Image`} className="screenCard_preview" /> :
+            <video src={file.file} autoPlay controls muted loop playsInline onLoad={() => setLoading(false)} alt={`Dropped Video`} className="screenCard_preview" />
           }
     </>
   )
