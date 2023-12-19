@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import Preview from "./Preview";
 import { checkFile } from "../utils/mediaUtils";
 import MiniLoader from "./MiniLoader";
+
 const Screencard = ({screen_id, index}) => {
     // multi image logic
     // const [images, setImages] = useState([]);
@@ -22,21 +23,14 @@ const Screencard = ({screen_id, index}) => {
     const handleDrop = (event) => {
       event.preventDefault();
       const files = event.dataTransfer.files;
-      console.log(files)
       if (files.length > 0) {
         try{
-        const reader = new FileReader();
-        let filetype = checkFile(files[0])
-        if(filetype === false){
-          window.alert("File type not supported or too big")
-          return
-        }
-        reader.onload = () => {
-          setFile({type: filetype, file: reader.result});
-          setLoading(false)
-        }
-        reader.readAsDataURL(files[0]);
-        setLoading(true)
+          console.log(files)
+          if(checkFile(files[0])){
+            console.log('entro a enviar el archivo')
+            setLoading(true)
+            window.ipcRenderer.send('update_screen', {screen_id: screen_id, file: {filetype: files[0].type, filepath: files[0].path, name: files[0].name}})
+          }
       }
       catch(e){
         console.log(e)
@@ -48,9 +42,13 @@ const Screencard = ({screen_id, index}) => {
     }
 
     useEffect(() => {
-      if (!file) return;
-      window.ipcRenderer.send('send_file', {screen_id: screen_id, file: file})
-    },[file, screen_id])
+      window.ipcRenderer.on('screen_updated', (event, file) => {
+        console.log('screen updated, actualizacion de estado')
+        setFile(file)
+        console.log(file)
+        setLoading(false)
+      })
+    },[])
 
   return (
     <div
@@ -65,7 +63,7 @@ const Screencard = ({screen_id, index}) => {
         } */}
         { loading && <MiniLoader/>}
         {file ? 
-        <Preview file={file} setLoading={setLoading}/> : 
+        <Preview file={file} setLoading={setLoading} screen_id={screen_id}/> : 
         <>
         <h2>Screen {index + 1}</h2>
         <h2>Drop files here max 200MB</h2>

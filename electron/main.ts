@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
 import StartServer from '../src/api/index'
 import { obtenerIP } from '../src/api/utils/os'
+import easySignalScreens from './screens_store'
 // The built directory structure
 //
 // ├─┬─┬ dist
@@ -92,6 +93,17 @@ io.on('connection',  async (socket) => {
 
 ipcMain.on('send_file', (event, {screen_id, file}) => {
   io.to(screen_id).emit('file_change', file)
+})
+
+ipcMain.on('update_screen', (event, {screen_id, file}) => {
+  try{
+    console.log('esta en el main thread actualizando las pantllas', file)
+    easySignalScreens[screen_id] = file
+    win?.webContents.send('screen_updated', file)
+  }
+  catch(e){
+    console.log(e)
+  }
 })
 
 app.whenReady().then(createWindow)
