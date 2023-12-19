@@ -91,15 +91,15 @@ io.on('connection',  async (socket) => {
   })
 })
 
-ipcMain.on('send_file', (event, {screen_id, file}) => {
-  io.to(screen_id).emit('file_change', file)
-})
-
 ipcMain.on('update_screen', (event, {screen_id, file}) => {
   try{
-    console.log('esta en el main thread actualizando las pantllas', file)
+    if(file.name == easySignalScreens[screen_id]?.name){
+      win?.webContents.send('screen_updated', {...file, screen : screen_id})
+      return
+    }
     easySignalScreens[screen_id] = file
-    win?.webContents.send('screen_updated', file)
+    io.to(screen_id).emit('file_change', {name: easySignalScreens[screen_id].name, filetype:easySignalScreens[screen_id].filetype})
+    win?.webContents.send('screen_updated', {...file, screen : screen_id})
   }
   catch(e){
     console.log(e)

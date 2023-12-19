@@ -34,7 +34,7 @@ app.get('/currentfile/:screen_id/:filename', (req, res) => {
 })
 
 // Configuración para escuchar en todas las interfaces de red
-const express_server = app.listen(port, () => {
+const express_server = app.listen(port, '0.0.0.0', () => {
   const host = obtenerIP()
   console.log(`Servidor escuchando en http://${host}:${port}`);
 });

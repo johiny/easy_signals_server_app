@@ -1,6 +1,7 @@
 type easySignalScreen = {
     filetype : string,
-    filepath: string
+    filepath: string,
+    name: string
 }
 
 const easySignalScreens : Record<string,easySignalScreen> = {}

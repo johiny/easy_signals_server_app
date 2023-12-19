@@ -25,9 +25,7 @@ const Screencard = ({screen_id, index}) => {
       const files = event.dataTransfer.files;
       if (files.length > 0) {
         try{
-          console.log(files)
           if(checkFile(files[0])){
-            console.log('entro a enviar el archivo')
             setLoading(true)
             window.ipcRenderer.send('update_screen', {screen_id: screen_id, file: {filetype: files[0].type, filepath: files[0].path, name: files[0].name}})
           }
@@ -43,12 +41,12 @@ const Screencard = ({screen_id, index}) => {
 
     useEffect(() => {
       window.ipcRenderer.on('screen_updated', (event, file) => {
-        console.log('screen updated, actualizacion de estado')
+        if(file.screen == screen_id){
         setFile(file)
-        console.log(file)
         setLoading(false)
+        }
       })
-    },[])
+    },[screen_id])
 
   return (
     <div
