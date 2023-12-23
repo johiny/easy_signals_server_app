@@ -1,17 +1,11 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'node:path'
+// @ts-expect-error types declaration missing
 import StartServer from '../src/api/index'
+// @ts-expect-error types declaration missing
 import { obtenerIP } from '../src/api/utils/os'
 import easySignalScreens from './screens_store'
-// The built directory structure
-//
-// ├─┬─┬ dist
-// │ │ └── index.html
-// │ │
-// │ ├─┬ dist-electron
-// │ │ ├── main.js
-// │ │ └── preload.js
-// │
+
 process.env.DIST = path.join(__dirname, '../dist')
 process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public')
 
@@ -63,7 +57,7 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.on('get_ip', (event, data) => {
+ipcMain.on('get_ip', () => {
   const host_IP = obtenerIP()
   win?.webContents.send('receive_ip', host_IP)
 })
@@ -71,18 +65,19 @@ ipcMain.on('get_ip', (event, data) => {
 // sockets section
 const {io} = StartServer()
 
-ipcMain.on('get_screens', async (event, arg) => {
+ipcMain.on('get_screens', async () => {
   updateSockets();
 }
 )
 
 const updateSockets = async () => {
   let sockets = await io.fetchSockets()
-  sockets = sockets.map(socket => socket.id)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sockets = sockets.map((socket: any) => socket.id)
   win?.webContents.send('screens_change', sockets)
 }
-
-io.on('connection',  async (socket) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+io.on('connection',  async (socket: any) => {
   console.log('socket conectado', socket.id)
   await updateSockets()
   socket.on('disconnect', async () => {
@@ -91,7 +86,7 @@ io.on('connection',  async (socket) => {
   })
 })
 
-ipcMain.on('update_screen', (event, {screen_id, file}) => {
+ipcMain.on('update_screen', (_event, {screen_id, file}) => {
   try{
     if(file.name == easySignalScreens[screen_id]?.name){
       win?.webContents.send('screen_updated', {...file, screen : screen_id})

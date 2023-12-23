@@ -20,12 +20,12 @@ app.get('/currentfile/:screen_id/:filename', (req, res) => {
   try{
     console.log('peticion entrante' , screen_id)
    console.log(easySignalScreens)
-    if(existsSync(easySignalScreens[screen_id].filepath)){
+    if(existsSync(easySignalScreens[screen_id]?.filepath)){
       res.header('Content-Type', easySignalScreens[screen_id].filetype);
   
       // Envía el archivo de video
       console.log('archivo enviado', easySignalScreens[screen_id].name)
-      res.sendFile(easySignalScreens[screen_id].filepath);
+      res.sendFile(easySignalScreens[screen_id]?.filepath);
     }
   }
   catch(e){

@@ -3,9 +3,9 @@
  */
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "34asys1gn4als",
   "asar": true,
-  "productName": "YourAppName",
+  "productName": "EasySignals",
   "directories": {
     "output": "release/${version}"
   },
