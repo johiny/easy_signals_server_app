@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import easySignalScreens from '../../electron/screens_store';
 import { existsSync } from 'fs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import https from 'https';
 import fs from 'fs';
 
@@ -11,6 +12,7 @@ const app = express();
 const port = 3000;
 const activeScreens = []
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const options = {
   key:  fs.readFileSync('./src/api/server.key', 'utf-8'),
   cert: fs.readFileSync('./src/api/server.cert', 'utf-8')

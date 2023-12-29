@@ -27,7 +27,6 @@ const Dashboard = () => {
       activeScreens.map((screen, index) => (
         <Screencard key={screen} screen_id={screen} index={index}/>
       )) : <h1>No hay pantallas conectadas</h1>}
-      <Screencard key={screen} screen_id={'asdasdasd'} index={1}/>
     </div>
     </div>
     </div>
