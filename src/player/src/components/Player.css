@@ -1,0 +1,18 @@
+.playerContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.playerVideo{
+    width: 100%;
+    height: 100%;
+}
+
+.playerImage{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}

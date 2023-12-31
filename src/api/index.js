@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import easySignalScreens from '../../electron/screens_store';
 import { existsSync } from 'fs';
+import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import https from 'https';
 import fs from 'fs';
@@ -22,9 +23,8 @@ const StartServer = () => {
 // Middleware para analizar el cuerpo de las solicitudes JSON
 app.use(express.json());
 app.use(cors());
-
-// custom routes
-
+app.use('/', express.static(path.join(__dirname, '../src/player/dist')));
+// Ruta para obtener archivos
 app.get('/currentfile/:screen_id/:filename', (req, res) => {
   const screen_id = req.params.screen_id
   try{
@@ -43,6 +43,12 @@ app.get('/currentfile/:screen_id/:filename', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.send('Server Alcanzado y funcionando')
+})
+
+// ruta para obtener el reproductor
+app.get('/player', (req, res) => {
+  console.log(__dirname)
+  res.sendFile(path.join(__dirname, '../src/player/dist', "index.html"));
 })
 
 // Configuración para escuchar en todas las interfaces de red

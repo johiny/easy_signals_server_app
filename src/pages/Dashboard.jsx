@@ -20,7 +20,11 @@ const Dashboard = () => {
       <div className='dashboard_container'>
     <h1>
         Easy Signals<br/>
-        <span>Your Server IP is : {hostIP}</span>
+        <span>Your Server IP is : {hostIP}</span><br/>
+        <span>Put the IP on the app<br/> Or go to this URL on any browser
+          <br/>
+          {hostIP}:3000/player
+        </span>
     </h1>
     <div className='screenCards_Container'>
       { activeScreens.length > 0 ? 

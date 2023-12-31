@@ -2,12 +2,12 @@
 //   RouterProvider,
 // } from "react-router-dom";
 // import Router from './components/Router' 
-import Dashboaard from './pages/Dashboard'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
     // <RouterProvider router={Router} />
-    <Dashboaard/>
+    <Dashboard/>
   )
 }
 
