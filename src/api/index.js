@@ -7,6 +7,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import https from 'https';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import fs from 'fs';
 
 const app = express();
@@ -14,16 +15,20 @@ const port = 3000;
 const activeScreens = []
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const options = {
-  key:  fs.readFileSync('./src/api/server.key', 'utf-8'),
-  cert: fs.readFileSync('./src/api/server.cert', 'utf-8')
-};
+// const options = {
+//   key:  fs.readFileSync('./src/api/server.key', 'utf-8'),
+//   cert: fs.readFileSync('./src/api/server.cert', 'utf-8')
+// };
 
 const StartServer = () => {
 // Middleware para analizar el cuerpo de las solicitudes JSON
 app.use(express.json());
 app.use(cors());
-app.use('/', express.static(path.join(__dirname, '../src/player/dist')));
+// dev route
+const public_route = '../src/player/dist'
+// // deploy route
+// const public_route = '../player'
+app.use('/', express.static(path.join(__dirname, public_route)));
 // Ruta para obtener archivos
 app.get('/currentfile/:screen_id/:filename', (req, res) => {
   const screen_id = req.params.screen_id
@@ -47,8 +52,7 @@ app.get('/health', (req, res) => {
 
 // ruta para obtener el reproductor
 app.get('/player', (req, res) => {
-  console.log(__dirname)
-  res.sendFile(path.join(__dirname, '../src/player/dist', "index.html"));
+  res.sendFile(path.join(__dirname, public_route, "index.html"));
 })
 
 // Configuración para escuchar en todas las interfaces de red

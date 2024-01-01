@@ -18,14 +18,13 @@ const Dashboard = () => {
   return (
     <div className='dashboard'>
       <div className='dashboard_container'>
-    <h1>
-        Easy Signals<br/>
-        <span>Your Server IP is : {hostIP}</span><br/>
-        <span>Put the IP on the app<br/> Or go to this URL on any browser
-          <br/>
-          {hostIP}:3000/player
-        </span>
+    <h1 className='dashboard_title'>
+        Easy Signals
     </h1>
+        <span className='your_ip'>Your Server IP is : {hostIP}</span>
+        <span className='player_link'>
+          Go to <br/> <b>{hostIP}:3000/player</b> <br/>  or use the Android App
+        </span>
     <div className='screenCards_Container'>
       { activeScreens.length > 0 ? 
       activeScreens.map((screen, index) => (

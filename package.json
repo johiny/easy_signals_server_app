@@ -1,5 +1,5 @@
 {
-  "name": "easy_signals_backend",
+  "name": "easy_signals",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -20,6 +20,16 @@
     "socket.io": "^4.7.2",
     "swr": "^2.2.4",
     "utf-8-validate": "^6.0.3"
+  },
+  "build": {
+    "asar": true,
+    "files": [
+      "./**"
+    ]
+    ,
+    "directories": {
+      "output": "release"
+    }
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
