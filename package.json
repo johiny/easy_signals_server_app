@@ -29,6 +29,11 @@
     ,
     "directories": {
       "output": "release"
+    },
+    "appId": "com.johiny.easysignals",
+    "artifactName": "EasySignals-${version}.${ext}",
+    "win": {
+      "icon": "./public/favicon.ico" 
     }
   },
   "devDependencies": {
